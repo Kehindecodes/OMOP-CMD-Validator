@@ -17,7 +17,7 @@ class Validator:
                 self.all_dataframes[table_name] = pd.read_csv(file_path, low_memory=False)
                 print(f"Loaded {table_name}.csv successfully.")
             except FileNotFoundError:
-                error_msg = f"Error: {file_path} not found."
+                error_msg = f"Error: {table_name}.csv not found."
                 self.validation_report['errors'].append(error_msg)
                 print(error_msg)
 
@@ -40,6 +40,7 @@ class Validator:
     def validate_required_columns(self, df, table):
         required_cols = table.get('required_columns', [])
         for col in required_cols:
+
             if df[col].isnull().any():
                 error_msg = f"Error: Missing value in required column '{col}' of table '{table['name']}'."
                 self.validation_report['errors'].append(error_msg)
@@ -55,23 +56,23 @@ class Validator:
                     self.validation_report['errors'].append(error_msg)
 
     def validate_primary_key(self, df, table):
-        pk = table.get('primary_key')
-        if pk and df[pk].duplicated().any():
-            error_msg = f"Error: Duplicate values found in primary key '{pk}' of table '{table['name']}'."
+        primary_key = table.get('primary_key')
+        if primary_key and df[primary_key].duplicated().any():
+            error_msg = f"Error: Duplicate values found in primary key '{primary_key}' of table '{table['name']}'."
             self.validation_report['errors'].append(error_msg)
 
     def validate_foreign_keys(self, df, table):
-        fks = table.get('foreign_keys', [])
-        for fk_info in fks:
-            fk_col = fk_info['column']
-            ref_info = fk_info['references'].split('.')
-            ref_table, ref_pk = ref_info[0], ref_info[1]
+        foreign_keys = table.get('foreign_keys', [])
+        for foreign_key_info in foreign_keys:
+            foreign_key_col = foreign_key_info['column']
+            reference = foreign_key_info['references'].split('.')
+            reference_table, reference_primary_key = reference[0], reference[1]
 
-            if fk_col in df.columns and ref_table in self.all_dataframes:
-                parent_df = self.all_dataframes[ref_table]
-                missing_keys = df[~df[fk_col].isin(parent_df[ref_pk])]
+            if foreign_key_col in df.columns and reference_table in self.all_dataframes:
+                parent_df = self.all_dataframes[reference_table]
+                missing_keys = df[~df[foreign_key_col].isin(parent_df[reference_primary_key])]
                 if not missing_keys.empty:
-                    error_msg = f"Error: {len(missing_keys)} foreign key(s) in '{fk_col}' of table '{table['name']}' do not exist in the parent table '{ref_table}'."
+                    error_msg = f"Error: {len(missing_keys)} foreign key(s) in '{foreign_key_col}' of table '{table['name']}' do not exist in the parent table '{ref_table}'."
                     self.validation_report['errors'].append(error_msg)
 
     def get_report(self):
@@ -79,16 +80,16 @@ class Validator:
         return self.validation_report
 
 # Example of how to use the Validator class
-if __name__ == '__main__':
-    validator = Validator('config/omop_schema.yaml')
-    validator.load_data('data')
-    validator.validate_all()
-    report = validator.get_report()
+# if __name__ == '__main__':
+#     validator = Validator('config/omop_schema.yaml')
+#     validator.load_data('data')
+    # validator.validate_all()
+  # report = validator.get_report()
 
-    print("\n--- Validation Report ---")
-    if report['errors']:
-        print("Validation Failed with the following errors:")
-        for error in report['errors']:
-            print(f"- {error}")
-    else:
-        print("Validation successful! No errors found.")
+    # print("\n--- Validation Report ---")
+    # if report['errors']:
+    #     print("Validation Failed with the following errors:")
+    #     for error in report['errors']:
+    #         print(f"- {error}")
+    # else:
+    #     print("Validation successful! No errors found.")

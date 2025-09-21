@@ -4,6 +4,8 @@ __pycache__/
 
 *.so
 
+/data/
+
 .Python
 build/
 develop-eggs/
