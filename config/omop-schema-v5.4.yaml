@@ -5,7 +5,7 @@
 # Data types are mapped to a simplified set for Pandas compatibility:
 # - integer -> int
 # - date/timestamp -> datetime64[ns]
-# - varchar/text -> object (or str in Python)
+# - varchar/text -> str (or str in Python)
 # - numeric -> float
 #
 # Primary and foreign keys are based on standard OMOP conventions.
@@ -31,12 +31,12 @@ tables:
       location_id: int
       provider_id: int
       care_site_id: int
-      person_source_value: object
-      gender_source_value: object
+      person_source_value: str
+      gender_source_value: str
       gender_source_concept_id: int
-      race_source_value: object
+      race_source_value: str
       race_source_concept_id: int
-      ethnicity_source_value: object
+      ethnicity_source_value: str
       ethnicity_source_concept_id: int
 
   - name: observation_period
@@ -77,12 +77,12 @@ tables:
       visit_type_concept_id: int
       provider_id: int
       care_site_id: int
-      visit_source_value: object
+      visit_source_value: str
       visit_source_concept_id: int
       admitted_from_concept_id: int
-      admitted_from_source_value: object
+      admitted_from_source_value: str
       discharged_to_concept_id: int
-      discharged_to_source_value: object
+      discharged_to_source_value: str
       preceding_visit_occurrence_id: int
     foreign_keys:
       - column: person_id
@@ -115,11 +115,11 @@ tables:
       visit_detail_type_concept_id: int
       provider_id: int
       care_site_id: int
-      visit_detail_source_value: object
+      visit_detail_source_value: str
       visit_detail_source_concept_id: int
       admitted_from_concept_id: int
-      admitted_from_source_value: object
-      discharged_to_source_value: object
+      admitted_from_source_value: str
+      discharged_to_source_value: str
       discharged_to_concept_id: int
       preceding_visit_detail_id: int
       parent_visit_detail_id: int
@@ -152,13 +152,13 @@ tables:
       condition_end_datetime: datetime64[ns]
       condition_type_concept_id: int
       condition_status_concept_id: int
-      stop_reason: object
+      stop_reason: str
       provider_id: int
       visit_occurrence_id: int
       visit_detail_id: int
-      condition_source_value: object
+      condition_source_value: str
       condition_source_concept_id: int
-      condition_status_source_value: object
+      condition_status_source_value: str
     foreign_keys:
       - column: person_id
         references: person.person_id
@@ -188,20 +188,20 @@ tables:
       drug_exposure_end_datetime: datetime64[ns]
       verbatim_end_date: datetime64[ns]
       drug_type_concept_id: int
-      stop_reason: object
+      stop_reason: str
       refills: int
       quantity: float
       days_supply: int
-      sig: object
+      sig: str
       route_concept_id: int
-      lot_number: object
+      lot_number: str
       provider_id: int
       visit_occurrence_id: int
       visit_detail_id: int
-      drug_source_value: object
+      drug_source_value: str
       drug_source_concept_id: int
-      route_source_value: object
-      dose_unit_source_value: object
+      route_source_value: str
+      dose_unit_source_value: str
     foreign_keys:
       - column: person_id
         references: person.person_id
@@ -234,9 +234,9 @@ tables:
       provider_id: int
       visit_occurrence_id: int
       visit_detail_id: int
-      procedure_source_value: object
+      procedure_source_value: str
       procedure_source_concept_id: int
-      modifier_source_value: object
+      modifier_source_value: str
     foreign_keys:
       - column: person_id
         references: person.person_id
@@ -264,16 +264,16 @@ tables:
       device_exposure_end_date: datetime64[ns]
       device_exposure_end_datetime: datetime64[ns]
       device_type_concept_id: int
-      unique_device_id: object
-      production_id: object
+      unique_device_id: str
+      production_id: str
       quantity: int
       provider_id: int
       visit_occurrence_id: int
       visit_detail_id: int
-      device_source_value: object
+      device_source_value: str
       device_source_concept_id: int
       unit_concept_id: int
-      unit_source_value: object
+      unit_source_value: str
       unit_source_concept_id: int
     foreign_keys:
       - column: person_id
@@ -299,7 +299,7 @@ tables:
       measurement_concept_id: int
       measurement_date: datetime64[ns]
       measurement_datetime: datetime64[ns]
-      measurement_time: object
+      measurement_time: str
       measurement_type_concept_id: int
       operator_concept_id: int
       value_as_number: float
@@ -310,11 +310,11 @@ tables:
       provider_id: int
       visit_occurrence_id: int
       visit_detail_id: int
-      measurement_source_value: object
+      measurement_source_value: str
       measurement_source_concept_id: int
-      unit_source_value: object
+      unit_source_value: str
       unit_source_concept_id: int
-      value_source_value: object
+      value_source_value: str
       measurement_event_id: int
       meas_event_field_concept_id: int
     foreign_keys:
@@ -343,18 +343,18 @@ tables:
       observation_datetime: datetime64[ns]
       observation_type_concept_id: int
       value_as_number: float
-      value_as_string: object
+      value_as_string: str
       value_as_concept_id: int
       qualifier_concept_id: int
       unit_concept_id: int
       provider_id: int
       visit_occurrence_id: int
       visit_detail_id: int
-      observation_source_value: object
+      observation_source_value: str
       observation_source_concept_id: int
-      unit_source_value: object
-      qualifier_source_value: object
-      value_source_value: object
+      unit_source_value: str
+      qualifier_source_value: str
+      value_source_value: str
       observation_event_id: int
       obs_event_field_concept_id: int
     foreign_keys:
@@ -378,7 +378,7 @@ tables:
       death_datetime: datetime64[ns]
       death_type_concept_id: int
       cause_concept_id: int
-      cause_source_value: object
+      cause_source_value: str
       cause_source_concept_id: int
     foreign_keys:
       - column: person_id
@@ -402,14 +402,14 @@ tables:
       note_datetime: datetime64[ns]
       note_type_concept_id: int
       note_class_concept_id: int
-      note_title: object
-      note_text: object
+      note_title: str
+      note_text: str
       encoding_concept_id: int
       language_concept_id: int
       provider_id: int
       visit_occurrence_id: int
       visit_detail_id: int
-      note_source_value: object
+      note_source_value: str
       note_event_id: int
       note_event_field_concept_id: int
     foreign_keys:
@@ -433,17 +433,17 @@ tables:
       note_nlp_id: int
       note_id: int
       section_concept_id: int
-      snippet: object
-      offset: object
-      lexical_variant: object
+      snippet: str
+      offset: str
+      lexical_variant: str
       note_nlp_concept_id: int
       note_nlp_source_concept_id: int
-      nlp_system: object
+      nlp_system: str
       nlp_date: datetime64[ns]
       nlp_datetime: datetime64[ns]
-      term_exists: object
-      term_temporal: object
-      term_modifiers: object
+      term_exists: str
+      term_temporal: str
+      term_modifiers: str
     foreign_keys:
       - column: note_id
         references: note.note_id
@@ -467,11 +467,11 @@ tables:
       unit_concept_id: int
       anatomic_site_concept_id: int
       disease_status_concept_id: int
-      specimen_source_id: object
-      specimen_source_value: object
-      unit_source_value: object
-      anatomic_site_source_value: object
-      disease_status_source_value: object
+      specimen_source_id: str
+      specimen_source_value: str
+      unit_source_value: str
+      anatomic_site_source_value: str
+      disease_status_source_value: str
     foreign_keys:
       - column: person_id
         references: person.person_id
@@ -509,29 +509,29 @@ tables:
       - location_id
     datatypes:
       location_id: int
-      address_1: object
-      address_2: object
-      city: object
-      state: object
-      zip: object
-      county: object
-      location_source_value: object
+      address_1: str
+      address_2: str
+      city: str
+      state: str
+      zip: str
+      county: str
+      location_source_value: str
       country_concept_id: int
-      country_source_value: object
+      country_source_value: str
       latitude: float
       longitude: float
-    
+
   - name: care_site
     primary_key: care_site_id
     required_columns:
       - care_site_id
     datatypes:
       care_site_id: int
-      care_site_name: object
+      care_site_name: str
       place_of_service_concept_id: int
       location_id: int
-      care_site_source_value: object
-      place_of_service_source_value: object
+      care_site_source_value: str
+      place_of_service_source_value: str
     foreign_keys:
       - column: location_id
         references: location.location_id
@@ -542,17 +542,17 @@ tables:
       - provider_id
     datatypes:
       provider_id: int
-      provider_name: object
-      npi: object
-      dea: object
+      provider_name: str
+      npi: str
+      dea: str
       specialty_concept_id: int
       care_site_id: int
       year_of_birth: int
       gender_concept_id: int
-      provider_source_value: object
-      specialty_source_value: object
+      provider_source_value: str
+      specialty_source_value: str
       specialty_source_concept_id: int
-      gender_source_value: object
+      gender_source_value: str
       gender_source_concept_id: int
     foreign_keys:
       - column: care_site_id
@@ -571,17 +571,17 @@ tables:
       payer_plan_period_start_date: datetime64[ns]
       payer_plan_period_end_date: datetime64[ns]
       payer_concept_id: int
-      payer_source_value: object
+      payer_source_value: str
       payer_source_concept_id: int
       plan_concept_id: int
-      plan_source_value: object
+      plan_source_value: str
       plan_source_concept_id: int
       sponsor_concept_id: int
-      sponsor_source_value: object
+      sponsor_source_value: str
       sponsor_source_concept_id: int
-      family_source_value: object
+      family_source_value: str
       stop_reason_concept_id: int
-      stop_reason_source_value: object
+      stop_reason_source_value: str
       stop_reason_source_concept_id: int
     foreign_keys:
       - column: person_id
@@ -599,7 +599,7 @@ tables:
     datatypes:
       cost_id: int
       cost_event_id: int
-      cost_domain_id: object
+      cost_domain_id: str
       cost_type_concept_id: int
       currency_concept_id: int
       total_charge: float
@@ -616,9 +616,9 @@ tables:
       payer_plan_period_id: int
       amount_allowed: float
       revenue_code_concept_id: int
-      revenue_code_source_value: object
+      revenue_code_source_value: str
       drg_concept_id: int
-      drg_source_value: object
+      drg_source_value: str
     foreign_keys:
       - column: payer_plan_period_id
         references: payer_plan_period.payer_plan_period_id
@@ -691,7 +691,7 @@ tables:
       - person_id
       - episode_concept_id
       - episode_start_date
-      - episode_object_concept_id
+      - episode_str_concept_id
       - episode_type_concept_id
     datatypes:
       episode_id: int
@@ -703,9 +703,9 @@ tables:
       episode_end_datetime: datetime64[ns]
       episode_parent_id: int
       episode_number: int
-      episode_object_concept_id: int
+      episode_str_concept_id: int
       episode_type_concept_id: int
-      episode_source_value: object
+      episode_source_value: str
       episode_source_concept_id: int
     foreign_keys:
       - column: person_id
@@ -737,8 +737,8 @@ tables:
       metadata_id: int
       metadata_concept_id: int
       metadata_type_concept_id: int
-      name: object
-      value_as_string: object
+      name: str
+      value_as_string: str
       value_as_concept_id: int
       value_as_number: float
       metadata_date: datetime64[ns]
@@ -754,17 +754,17 @@ tables:
       - cdm_version_concept_id
       - vocabulary_version
     datatypes:
-      cdm_source_name: object
-      cdm_source_abbreviation: object
-      cdm_holder: object
-      source_description: object
-      source_documentation_reference: object
-      cdm_etl_reference: object
+      cdm_source_name: str
+      cdm_source_abbreviation: str
+      cdm_holder: str
+      source_description: str
+      source_documentation_reference: str
+      cdm_etl_reference: str
       source_release_date: datetime64[ns]
       cdm_release_date: datetime64[ns]
-      cdm_version: object
+      cdm_version: str
       cdm_version_concept_id: int
-      vocabulary_version: object
+      vocabulary_version: str
 
   - name: concept
     primary_key: concept_id
@@ -779,15 +779,15 @@ tables:
       - valid_end_date
     datatypes:
       concept_id: int
-      concept_name: object
-      domain_id: object
-      vocabulary_id: object
-      concept_class_id: object
-      standard_concept: object
-      concept_code: object
+      concept_name: str
+      domain_id: str
+      vocabulary_id: str
+      concept_class_id: str
+      standard_concept: str
+      concept_code: str
       valid_start_date: datetime64[ns]
       valid_end_date: datetime64[ns]
-      invalid_reason: object
+      invalid_reason: str
 
   - name: vocabulary
     primary_key: vocabulary_id
@@ -796,10 +796,10 @@ tables:
       - vocabulary_name
       - vocabulary_concept_id
     datatypes:
-      vocabulary_id: object
-      vocabulary_name: object
-      vocabulary_reference: object
-      vocabulary_version: object
+      vocabulary_id: str
+      vocabulary_name: str
+      vocabulary_reference: str
+      vocabulary_version: str
       vocabulary_concept_id: int
 
   - name: domain
@@ -809,8 +809,8 @@ tables:
       - domain_name
       - domain_concept_id
     datatypes:
-      domain_id: object
-      domain_name: object
+      domain_id: str
+      domain_name: str
       domain_concept_id: int
 
   - name: concept_class
@@ -820,8 +820,8 @@ tables:
       - concept_class_name
       - concept_class_concept_id
     datatypes:
-      concept_class_id: object
-      concept_class_name: object
+      concept_class_id: str
+      concept_class_name: str
       concept_class_concept_id: int
 
   - name: concept_relationship
@@ -838,10 +838,10 @@ tables:
     datatypes:
       concept_id_1: int
       concept_id_2: int
-      relationship_id: object
+      relationship_id: str
       valid_start_date: datetime64[ns]
       valid_end_date: datetime64[ns]
-      invalid_reason: object
+      invalid_reason: str
     foreign_keys:
       - column: concept_id_1
         references: concept.concept_id
@@ -860,11 +860,11 @@ tables:
       - reverse_relationship_id
       - relationship_concept_id
     datatypes:
-      relationship_id: object
-      relationship_name: object
-      is_hierarchical: object
-      defines_ancestry: object
-      reverse_relationship_id: object
+      relationship_id: str
+      relationship_name: str
+      is_hierarchical: str
+      defines_ancestry: str
+      reverse_relationship_id: str
       relationship_concept_id: int
 
   - name: concept_synonym
@@ -878,7 +878,7 @@ tables:
       - language_concept_id
     datatypes:
       concept_id: int
-      concept_synonym_name: object
+      concept_synonym_name: str
       language_concept_id: int
     foreign_keys:
       - column: concept_id
@@ -916,15 +916,15 @@ tables:
       - valid_start_date
       - valid_end_date
     datatypes:
-      source_code: object
+      source_code: str
       source_concept_id: int
-      source_vocabulary_id: object
-      source_code_description: object
+      source_vocabulary_id: str
+      source_code_description: str
       target_concept_id: int
-      target_vocabulary_id: object
+      target_vocabulary_id: str
       valid_start_date: datetime64[ns]
       valid_end_date: datetime64[ns]
-      invalid_reason: object
+      invalid_reason: str
     foreign_keys:
       - column: source_concept_id
         references: concept.concept_id
@@ -949,7 +949,7 @@ tables:
       box_size: int
       valid_start_date: datetime64[ns]
       valid_end_date: datetime64[ns]
-      invalid_reason: object
+      invalid_reason: str
     foreign_keys:
       - column: drug_concept_id
         references: concept.concept_id
@@ -980,9 +980,9 @@ tables:
       - subject_concept_id
     datatypes:
       cohort_definition_id: int
-      cohort_definition_name: object
-      cohort_definition_description: object
+      cohort_definition_name: str
+      cohort_definition_description: str
       definition_type_concept_id: int
-      cohort_definition_syntax: object
+      cohort_definition_syntax: str
       subject_concept_id: int
       cohort_initiation_date: datetime64[ns]
