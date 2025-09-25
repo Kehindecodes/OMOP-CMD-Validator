@@ -128,19 +128,3 @@ class Validator:
         if isinstance(value, (pd.Timestamp, np.datetime64)):
             return 'datetime64[ns]'
         return type(value).__name__
-
-
-# Example of how to use the Validator class
-# if __name__ == '__main__':
-#     validator = Validator('config/omop_schema.yaml')
-#     validator.load_data('data')
-    # validator.validate_all()
-  # report = validator.get_report()
-
-    # print("\n--- Validation Report ---")
-    # if report['errors']:
-    #     print("Validation Failed with the following errors:")
-    #     for error in report['errors']:
-    #         print(f"- {error}")
-    # else:
-    #     print("Validation successful! No errors found.")
