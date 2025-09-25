@@ -36,13 +36,3 @@ This project is a **Python-based application** designed to validate and visualiz
 - HTMX  
 
 ---
-
-## Getting Started
-
-To get started, follow these steps:
-
-1. Clone the repository:  
-   ```bash
-   git clone https://github.com/Kehindecodes/OMOP-CDM-Validator`
-
-2.
