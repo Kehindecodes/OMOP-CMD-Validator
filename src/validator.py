@@ -1,9 +1,26 @@
 import pandas as pd
 import yaml
+import numpy as np
 
 class Validator:
+    """A class for validating data against an OMOP CDM schema.
+
+    The Validator class provides functionality to load data from CSV files and validate it against
+    a specified schema in YAML format. It checks for required tables, columns, and data types
+    as defined in the schema.
+
+    Attributes:
+        schema (dict): The loaded YAML schema containing table and column definitions.
+        all_dataframes (dict): Dictionary to store loaded dataframes with table names as keys.
+        validation_report (dict): Dictionary containing error messages and validation results.
+
+    Example:
+        >>> validator = Validator('config/omop_schema.yaml')
+        >>> validator.load_data('data')
+        >>> validator.validate_all()
+    """
     def __init__(self, schema_file):
-        with open(schema_file, 'r') as file:
+        with open(schema_file, 'r', encoding='utf-8') as file:
             self.schema = yaml.safe_load(file)
         self.all_dataframes = {}
         self.validation_report = {'errors': []}
@@ -42,7 +59,7 @@ class Validator:
         for col in required_cols:
           if col in df.columns:
             if df[col].isnull().any():
-                    error_msg = f" A value is not provided for required column '{col}' of table '{table['name']}'."
+                    error_msg = f" A value is not provided for '{col}'in'{table['name']}'table.And it is required"
                     self.validation_report['errors'].append(error_msg)
             continue
         error_msg = f" The '{col}' field is missing in '{table['name']}' table."
@@ -52,9 +69,14 @@ class Validator:
         datatypes = table.get('datatypes', {})
         for col, expected_dtype in datatypes.items():
             if col in df.columns:
-                if str(df[col].dtype) != expected_dtype:
-                    error_msg = f" Data type mismatch in column '{col}' of table '{table['name']}': expected '{expected_dtype}', got '{df[col].dtype}'."
-                    self.validation_report['errors'].append(error_msg)
+                for index, row in df.iterrows():
+                    column_value = row[col]
+                    if not pd.isna(column_value):  # Skip NaN values
+                        actual_type = self._normalize_type(column_value)
+                        if expected_dtype != actual_type:
+                            error_msg = f"Data type mismatch in row {index + 1}, column '{col}' of table '{table['name']}': expected '{expected_dtype}', got '{actual_type}'."
+                            self.validation_report['errors'].append(error_msg)
+
 
     def validate_primary_key(self, df, table):
         primary_key = table.get('primary_key')
@@ -74,16 +96,39 @@ class Validator:
             if foreign_key_col in df.columns and reference_table in self.all_dataframes:
                 reference_df = self.all_dataframes[reference_table]
                 reference_id_list = list(df[foreign_key_col])
-                for reference_id in reference_id_list:
-                  reference = reference_df.loc[reference_df[reference_primary_key]==reference_id]
-                  if not reference:
-                        error_msg = f"The {foreign_key_col} in  table '{table['name']} do not exist in {reference_table} table  "
+                # for reference_id in reference_id_list:
+                #   reference = reference_df.loc[reference_df[reference_primary_key]==reference_id]
+                #   if reference.empty:
+                #         error_msg = f"The {foreign_key_col} in  table '{table['name']} do not exist in {reference_table} table  "
+                #         self.validation_report['errors'].append(error_msg)
+                # Get all invalid foreign keys at once
+                invalid_references = ~df[foreign_key_col].isin(reference_df[reference_primary_key])
+                if invalid_references.any():
+                    invalid_values = df.loc[invalid_references, foreign_key_col].unique()
+                    for value in invalid_values:
+                        error_msg = f"Value {value} in column '{foreign_key_col}' of table '{table['name']}' does not exist in the {reference_table} table"
                         self.validation_report['errors'].append(error_msg)
 
 
     def get_report(self):
         """Returns the final validation report."""
         return self.validation_report
+    def _normalize_type(self, value):
+        """Convert value to a normalized type name for comparison."""
+        if pd.isna(value):
+            return None
+        if isinstance(value, (int, np.integer)):
+            return 'int'
+        if isinstance(value, (float, np.floating)):
+            return 'float'
+        if isinstance(value, (str, np.str_)):
+            return 'str'
+        if isinstance(value, (bool, np.bool_)):
+            return 'bool'
+        if isinstance(value, (pd.Timestamp, np.datetime64)):
+            return 'datetime64[ns]'
+        return type(value).__name__
+
 
 # Example of how to use the Validator class
 # if __name__ == '__main__':
