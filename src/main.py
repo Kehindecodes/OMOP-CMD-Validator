@@ -1,4 +1,4 @@
-from validator import Validator
+from validator.validator import Validator
 
 def main():
   validator = Validator('config/omop-schema-v5.4.yaml')
