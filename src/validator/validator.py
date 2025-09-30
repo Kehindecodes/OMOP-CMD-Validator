@@ -1,7 +1,6 @@
 import pandas as pd
 import yaml
 import numpy as np
-# (The unused import line has been removed.)
 
 class Validator:
     """A class for validating data against an OMOP CDM schema.
