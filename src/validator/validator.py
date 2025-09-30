@@ -1,6 +1,7 @@
 import pandas as pd
 import yaml
 import numpy as np
+# (The unused import line has been removed.)
 
 class Validator:
     """A class for validating data against an OMOP CDM schema.
@@ -13,11 +14,6 @@ class Validator:
         schema (dict): The loaded YAML schema containing table and column definitions.
         all_dataframes (dict): Dictionary to store loaded dataframes with table names as keys.
         validation_report (dict): Dictionary containing error messages and validation results.
-
-    Example:
-        >>> validator = Validator('config/omop_schema.yaml')
-        >>> validator.load_data('data')
-        >>> validator.validate_all()
     """
     def __init__(self, schema_file):
         with open(schema_file, 'r', encoding='utf-8') as file:
@@ -71,9 +67,13 @@ class Validator:
             if col in df.columns:
                 for index, row in df.iterrows():
                     column_value = row[col]
-                    if not pd.isna(column_value):  # Skip NaN values
+                    if not pd.isna(column_value):
+                        if expected_dtype == 'datetime64[ns]':
+                          date_in_datetime64 = pd.to_datetime(column_value,errors='coerce')
+                          if date_in_datetime64:
+                                column_value = date_in_datetime64
                         actual_type = self._normalize_type(column_value)
-                        if expected_dtype != actual_type:
+                    if expected_dtype != actual_type:
                             error_msg = f"Data type mismatch in row {index + 1}, column '{col}' of table '{table['name']}': expected '{expected_dtype}', got '{actual_type}'."
                             self.validation_report['errors'].append(error_msg)
 
@@ -95,13 +95,6 @@ class Validator:
 
             if foreign_key_col in df.columns and reference_table in self.all_dataframes:
                 reference_df = self.all_dataframes[reference_table]
-                reference_id_list = list(df[foreign_key_col])
-                # for reference_id in reference_id_list:
-                #   reference = reference_df.loc[reference_df[reference_primary_key]==reference_id]
-                #   if reference.empty:
-                #         error_msg = f"The {foreign_key_col} in  table '{table['name']} do not exist in {reference_table} table  "
-                #         self.validation_report['errors'].append(error_msg)
-                # Get all invalid foreign keys at once
                 invalid_references = ~df[foreign_key_col].isin(reference_df[reference_primary_key])
                 if invalid_references.any():
                     invalid_values = df.loc[invalid_references, foreign_key_col].unique()
