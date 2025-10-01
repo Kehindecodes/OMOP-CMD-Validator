@@ -2,8 +2,8 @@ from validator.validator import Validator
 
 def main():
   validator = Validator('config/omop-schema-v5.4.yaml')
-  validator.load_data('data')
-  validator.validate_all();
+  validator.load_data('data/src')
+  validator.validate_all()
   report = validator.get_report()
 
 

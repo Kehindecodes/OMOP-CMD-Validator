@@ -1,0 +1,21 @@
+ 'tables': [
+        {
+            'name': 'person',
+            'primary_key': 'person_id',
+            'required_columns': ['person_id', 'gender_concept_id'],
+            'datatypes': {
+                'person_id': 'int',
+                'year_of_birth': 'int',
+                'birth_datetime': 'datetime64[ns]'
+            }
+        },
+        {
+            'name': 'condition_occurrence',
+            'primary_key': 'condition_occurrence_id',
+            'required_columns': ['person_id'],
+            'datatypes': {'person_id': 'int'},
+            'foreign_keys': [
+                {'column': 'person_id', 'references': 'person.person_id'}
+            ]
+        }
+    ]

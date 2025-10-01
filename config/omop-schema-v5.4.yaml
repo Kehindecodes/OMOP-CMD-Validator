@@ -1,6 +1,5 @@
 # This file programmatically defines the OMOP CDM v5.4 schema
-# for use with a custom data validation script.
-# It is derived from the DDL script provided.
+# It is derived from the postgresql DDL script provided by the OMOP CDM
 #
 # Data types are mapped to a simplified set for Pandas compatibility:
 # - integer -> int
