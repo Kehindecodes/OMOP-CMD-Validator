@@ -60,9 +60,9 @@ class Validator:
                 if df[col].isnull().any():
                     error_msg = f" A value is not provided for '{col}'in'{table['name']}'table.And it is required"
                     self.validation_report["errors"].append(error_msg)
-                continue
-        error_msg = f" The '{col}' field is missing in '{table['name']}' table."
-        self.validation_report["errors"].append(error_msg)
+            else:
+                error_msg = f" The '{col}' field is missing in '{table['name']}' table."
+                self.validation_report["errors"].append(error_msg)
 
     def validate_datatypes(self, df, table):
         datatypes = table.get("datatypes", {})
