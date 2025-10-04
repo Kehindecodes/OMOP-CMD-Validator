@@ -477,11 +477,6 @@ tables:
 
   - name: fact_relationship
     primary_key:
-      - domain_concept_id_1
-      - fact_id_1
-      - domain_concept_id_2
-      - fact_id_2
-      - relationship_concept_id
     required_columns:
       - domain_concept_id_1
       - fact_id_1
@@ -500,7 +495,7 @@ tables:
       - column: domain_concept_id_2
         references: domain.domain_concept_id
       - column: relationship_concept_id
-        references: relationship.relationship_concept_id
+        references: concept.concept_id
 
   - name: location
     primary_key: location_id
@@ -865,11 +860,14 @@ tables:
       defines_ancestry: str
       reverse_relationship_id: str
       relationship_concept_id: int
+      foreign_keys:
+       - column: relationship_concept_id
+       - references: concept.concept_id
 
   - name: concept_synonym
     primary_key:
       - concept_id
-      - concept_synonym_name
+      - concept_synonrrrym_name
       - language_concept_id
     required_columns:
       - concept_id
