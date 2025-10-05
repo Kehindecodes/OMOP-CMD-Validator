@@ -1,6 +1,7 @@
 import pandas as pd
 import yaml
 import numpy as np
+import time
 
 
 class Validator:
@@ -43,15 +44,47 @@ class Validator:
             table_name = table["name"]
             if table_name in self.all_dataframes:
                 df = self.all_dataframes[table_name]
-                print(f"Starting validation for table: {table_name}")
+                print(f"Starting structural validation for table: {table_name}......")
 
                 # Run structural checks
+                step_start = time.time()
                 self.validate_required_columns(df, table)
+                print(
+                    f"Finished required columns validation for table: {table_name}, it took  {round(time.time() - step_start, 2)} seconds"
+                )
+                step_start = time.time()
                 self.validate_datatypes(df, table)
+                print(
+                    f"Finished datatypes validation for table: {table_name}, it took {round(time.time() - step_start, 2)} seconds"
+                )
+                step_start = time.time()
                 self.validate_primary_key(df, table)
+                print(
+                    f"Finished primary key validation for table: {table_name}, it took {round(time.time() - step_start, 2)} seconds"
+                )
+
+                step_start = time.time()
+                self.validate_character_length(df, table)
+                print(
+                    f"Finished character length validation for table: {table_name}, it took {round(time.time() - step_start, 2)} seconds"
+                )
 
                 # Run relational checks
+                step_start = time.time()
+                print(f"Starting relational validation for table: {table_name}......")
                 self.validate_foreign_keys(df, table)
+                print(
+                    f"Finished foreign keys validation for table: {table_name}, it took {round(time.time() - step_start, 2)} seconds"
+                )
+
+                # Run relational checks
+                step_time = time.time()
+                print(f"Starting relational validation for table: {table_name}......")
+                self.validate_foreign_keys(df, table)
+                print(
+                    f"Finished foreign keys validation for table: {table_name}, it took {round(time.time() - step_time, 2)} seconds"
+                )
+
 
     def validate_required_columns(self, df, table):
         required_cols = table.get("required_columns", [])
@@ -78,24 +111,62 @@ class Validator:
                             if date_in_datetime64:
                                 column_value = date_in_datetime64
                         actual_type = self._normalize_type(column_value)
-                    if expected_dtype != actual_type:
-                        error_msg = f"Data type mismatch in row {index + 1}, column '{col}' of table '{table['name']}': expected '{expected_dtype}', got '{actual_type}'."
-                        self.validation_report["errors"].append(error_msg)
+                        if type(expected_dtype) == dict:
+                            expected_dtype = expected_dtype.get("type")
+                        if expected_dtype != actual_type:
+                            error_msg = f"Data type mismatch in row {index + 1}, column '{col}' of table '{table['name']}': expected '{expected_dtype}', got '{actual_type}'."
+                            self.validation_report["errors"].append(error_msg)
+
+    def validate_character_length(self, df, table):
+        datatypes = table.get("datatypes", {})
+        for col, expected_dtype in datatypes.items():
+            if type(expected_dtype) == dict:
+                if expected_dtype.get("type") == "string":
+                    if col in df.columns:
+                        for index, row in df.iterrows():
+                            column_value = row[col]
+                            if not pd.isna(column_value):
+                                column_value = (
+                                    column_value
+                                    if type(column_value) == str
+                                    else str(column_value)
+                                )
+                                length = len(column_value)
+                                max_length = expected_dtype.get("max_length")
+                                if max_length and max_length < length:
+                                    error_msg = f"Character length  provided in row {index + 1}, column '{col}' of table '{table['name']}' is more than max length: expected '{max_length}', got '{length}'."
+                                    self.validation_report["errors"].append(
+                                        error_msg
+                                    )
+
+    # def validate_primary_key(self, df, table):
+    #     primary_key = table.get("primary_key")
+    #     if not primary_key:
+    #         return
+    #     if primary_key in df.columns:
+    #         if primary_key and df[primary_key].duplicated().any():
+    #             number_of_duplicates = df[primary_key].value_counts()
+    #             error_msg = f"'df{primary_key}' is duplicated '{number_of_duplicates}' times in '{table['name']}' table."
+    #             self.validation_report["errors"].append(error_msg)
 
     def validate_primary_key(self, df, table):
         primary_key = table.get("primary_key")
-        if primary_key in df.columns:
-            if primary_key and df[primary_key].duplicated().any():
-                number_of_duplicates = df[primary_key].value_counts()
-                error_msg = f"'df{primary_key}' is duplicated '{number_of_duplicates}' times in '{table['name']}' table."
-                self.validation_report["errors"].append(error_msg)
+        if not primary_key or primary_key not in df.columns:
+            return
+
+        unique_count = df[primary_key].nunique(dropna=False)
+        if len(df) != unique_count:
+            # Only compute value_counts if duplicates exist
+            number_of_duplicates = df[primary_key].value_counts()
+            error_msg = f"'{primary_key}' has {len(df) - unique_count} duplicate(s) in '{table['name']}'. Duplicate counts:\n{number_of_duplicates[number_of_duplicates > 1]}"
+            self.validation_report["errors"].append(error_msg)
 
     def validate_foreign_keys(self, df, table):
         foreign_keys = table.get("foreign_keys", [])
         for foreign_key in foreign_keys:
             foreign_key_col = foreign_key["column"]
-            references = foreign_key["references"].split(".")
-            reference_table, reference_primary_key = references[0], references[1]
+            reference = foreign_key["reference"].split(".")
+            reference_table, reference_primary_key = reference[0], reference[1]
 
             if foreign_key_col in df.columns and reference_table in self.all_dataframes:
                 reference_df = self.all_dataframes[reference_table]
@@ -119,11 +190,11 @@ class Validator:
         if pd.isna(value):
             return None
         if isinstance(value, (int, np.integer)):
-            return "int"
+            return "integer"
         if isinstance(value, (float, np.floating)):
             return "float"
         if isinstance(value, (str, np.str_)):
-            return "str"
+            return "string"
         if isinstance(value, (bool, np.bool_)):
             return "bool"
         if isinstance(value, (pd.Timestamp, np.datetime64)):

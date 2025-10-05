@@ -32,14 +32,14 @@ tables:
       care_site_id: integer
       person_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       gender_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       gender_source_concept_id: integer
       race_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       race_source_concept_id: integer
       ethnicity_source_value:
         type: string
@@ -47,23 +47,23 @@ tables:
       ethnicity_source_concept_id: integer
     foreign_keys:
       - column: gender_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: race_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: ethnicity_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: location_id
-        references: location.location_id
+        reference: location.location_id
       - column: provider_id
-        references: provider.provider_id
+        reference: provider.provider_id
       - column: care_site_id
-        references: care_site.care_site_id
+        reference: care_site.care_site_id
       - column: gender_source_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: race_source_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: ethnicity_source_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
 
   - name: observation_period
     primary_key: observation_period_id
@@ -81,9 +81,9 @@ tables:
       period_type_concept_id: integer
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: period_type_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
 
   - name: visit_occurrence
     primary_key: visit_occurrence_id
@@ -107,36 +107,36 @@ tables:
       care_site_id: integer
       visit_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       visit_source_concept_id: integer
       admitted_from_concept_id: integer
       admitted_from_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       discharged_to_concept_id: integer
       discharged_to_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       preceding_visit_occurrence_id: integer
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: provider_id
-        references: provider.provider_id
+        reference: provider.provider_id
       - column: care_site_id
-        references: care_site.care_site_id
+        reference: care_site.care_site_id
       - column: preceding_visit_occurrence_id
-        references: visit_occurrence.visit_occurrence_id
+        reference: visit_occurrence.visit_occurrence_id
       - column:  discharged_to_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: visit_source_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: admitted_from_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: admitted_from_source_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: discharged_to_source_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
 
   - name: visit_detail
     primary_key: visit_detail_id
@@ -161,42 +161,42 @@ tables:
       care_site_id: integer
       visit_detail_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       visit_detail_source_concept_id: integer
       admitted_from_concept_id: integer
       admitted_from_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       discharged_to_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       discharged_to_concept_id: integer
       preceding_visit_detail_id: integer
       parent_visit_detail_id: integer
       visit_occurrence_id: integer
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: provider_id
-        references: provider.provider_id
+        reference: provider.provider_id
       - column: care_site_id
-        references: care_site.care_site_id
+        reference: care_site.care_site_id
       - column: visit_occurrence_id
-        references: visit_occurrence.visit_occurrence_id
+        reference: visit_occurrence.visit_occurrence_id
       - column: visit_detail_source_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: preceding_visit_detail_id
-        references: visit_detail.visit_detail_id
+        reference: visit_detail.visit_detail_id
       - column: parent_visit_detail_id
-        references: visit_detail.visit_detail_id
+        reference: visit_detail.visit_detail_id
       - column: admitted_from_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: admitted_from_source_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: discharged_to_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: discharged_to_source_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
 
   - name: condition_occurrence
     primary_key: condition_occurrence_id
@@ -218,34 +218,34 @@ tables:
       condition_status_concept_id: integer
       stop_reason:
         type: string
-        maxLength: 20
+        max_length: 20
       provider_id: integer
       visit_occurrence_id: integer
       visit_detail_id: integer
       condition_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       condition_source_concept_id: integer
       condition_status_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: provider_id
-        references: provider.provider_id
+        reference: provider.provider_id
       - column: visit_occurrence_id
-        references: visit_occurrence.visit_occurrence_id
+        reference: visit_occurrence.visit_occurrence_id
       - column: visit_detail_id
-        references: visit_detail.visit_detail_id
+        reference: visit_detail.visit_detail_id
       - column: condition_source_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: condition_status_source_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: condition_status_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: condition_type_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
 
   - name: drug_exposure
     primary_key: drug_exposure_id
@@ -268,39 +268,39 @@ tables:
       drug_type_concept_id: integer
       stop_reason:
         type: string
-        maxLength: 50
+        max_length: 50
       refills: integer
       quantity: float
       days_supply: integer
       sig:
         type: string
-        maxLength: 1000
+        max_length: 1000
       route_concept_id: integer
       lot_number:
         type: string
-        maxLength: 50
+        max_length: 50
       provider_id: integer
       visit_occurrence_id: integer
       visit_detail_id: integer
       drug_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       drug_source_concept_id: integer
       route_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       dose_unit_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: provider_id
-        references: provider.provider_id
+        reference: provider.provider_id
       - column: visit_occurrence_id
-        references: visit_occurrence.visit_occurrence_id
+        reference: visit_occurrence.visit_occurrence_id
       - column: visit_detail_id
-        references: visit_detail.visit_detail_id
+        reference: visit_detail.visit_detail_id
       - column: drug_source_concept_id
         reference: concept.concept_id
       - column: route_concept_id
@@ -335,20 +335,20 @@ tables:
       visit_detail_id: integer
       procedure_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       procedure_source_concept_id: integer
       modifier_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: provider_id
-        references: provider.provider_id
+        reference: provider.provider_id
       - column: visit_occurrence_id
-        references: visit_occurrence.visit_occurrence_id
+        reference: visit_occurrence.visit_occurrence_id
       - column: visit_detail_id
-        references: visit_detail.visit_detail_id
+        reference: visit_detail.visit_detail_id
       - column: procedure_source_concept_id
         reference: concept.concept_id
       - column: modifier_concept_id
@@ -377,32 +377,32 @@ tables:
       device_type_concept_id: integer
       unique_device_id:
         type: string
-        maxLength: 50
+        max_length: 50
       production_id:
         type: string
-        maxLength: 50
+        max_length: 50
       quantity: int
       provider_id: integer
       visit_occurrence_id: integer
       visit_detail_id: integer
       device_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       device_source_concept_id: integer
       unit_concept_id: integer
       unit_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       unit_source_concept_id: integer
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: provider_id
-        references: provider.provider_id
+        reference: provider.provider_id
       - column: visit_occurrence_id
-        references: visit_occurrence.visit_occurrence_id
+        reference: visit_occurrence.visit_occurrence_id
       - column: visit_detail_id
-        references: visit_detail.visit_detail_id
+        reference: visit_detail.visit_detail_id
       - column: device_source_concept_id
         reference: concept.concept_id
       - column: unit_concept_id
@@ -430,7 +430,7 @@ tables:
       measurement_datetime: datetime64[ns]
       measurement_time:
         type: string
-        maxLength: 10
+        max_length: 10
       measurement_type_concept_id: integer
       operator_concept_id: integer
       value_as_number: float
@@ -443,26 +443,26 @@ tables:
       visit_detail_id: integer
       measurement_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       measurement_source_concept_id: integer
       unit_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       unit_source_concept_id: integer
       value_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       measurement_event_id: integer
       meas_event_field_concept_id: integer
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: provider_id
-        references: provider.provider_id
+        reference: provider.provider_id
       - column: visit_occurrence_id
-        references: visit_occurrence.visit_occurrence_id
+        reference: visit_occurrence.visit_occurrence_id
       - column: visit_detail_id
-        references: visit_detail.visit_detail_id
+        reference: visit_detail.visit_detail_id
       - column: measurement_source_concept_id
         reference: concept.concept_id
       - column: unit_concept_id
@@ -498,7 +498,7 @@ tables:
       value_as_number: float
       value_as_string:
         type: string
-        maxLength: 60
+        max_length: 60
       value_as_concept_id: integer
       qualifier_concept_id: integer
       unit_concept_id: integer
@@ -507,28 +507,28 @@ tables:
       visit_detail_id: integer
       observation_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       observation_source_concept_id: integer
       unit_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       qualifier_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       value_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       observation_event_id: integer
       obs_event_field_concept_id: integer
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: provider_id
-        references: provider.provider_id
+        reference: provider.provider_id
       - column: visit_occurrence_id
-        references: visit_occurrence.visit_occurrence_id
+        reference: visit_occurrence.visit_occurrence_id
       - column: visit_detail_id
-        references: visit_detail.visit_detail_id
+        reference: visit_detail.visit_detail_id
       - column: observation_source_concept_id
         reference: concept.concept_id
       - column: unit_concept_id
@@ -559,11 +559,11 @@ tables:
       cause_concept_id: integer
       cause_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       cause_source_concept_id: integer
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: cause_concept_id
         reference: concept.concept_id
       - column: death_type_concept_id
@@ -591,10 +591,10 @@ tables:
       note_class_concept_id: int
       note_title:
         type: string
-        maxLength: 250
+        max_length: 250
       note_text:
         type: string
-        maxLength: 65535
+        max_length:
       encoding_concept_id: integer
       language_concept_id: integer
       provider_id: integer
@@ -602,19 +602,19 @@ tables:
       visit_detail_id: integer
       note_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       note_class_concept_id: integer
       note_event_id: integer
       note_event_field_concept_id: integer
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: provider_id
-        references: provider.provider_id
+        reference: provider.provider_id
       - column: visit_occurrence_id
-        references: visit_occurrence.visit_occurrence_id
+        reference: visit_occurrence.visit_occurrence_id
       - column: visit_detail_id
-        references: visit_detail.visit_detail_id
+        reference: visit_detail.visit_detail_id
       - column: note_class_concept_id
         reference: concept.concept_id
       - column: note_type_concept_id
@@ -637,29 +637,29 @@ tables:
       section_concept_id: integer
       snippet:
         type: string
-        maxLength: 50
+        max_length: 50
       offset:
         type: string
-        maxLength: 50
+        max_length: 50
       lexical_variant:
         type: string
-        maxLength: 50
+        max_length: 50
       note_nlp_concept_id: integer
       note_nlp_source_concept_id: integer
       nlp_system:
         type: string
-        maxLength: 50
+        max_length: 50
       nlp_date: datetime64[ns]
       nlp_datetime: datetime64[ns]
       term_exists:
         type: string
-        maxLength: 50
+        max_length: 50
       term_temporal:
         type: string
-        maxLength: 50
+        max_length: 50
       term_modifiers:
         type: string
-        maxLength: 50
+        max_length: 50
     foreign_keys:
       - column: note_nlp_concept_id
         reference: concept.concept_id
@@ -689,22 +689,22 @@ tables:
       disease_status_concept_id: integer
       specimen_source_id:
         type: string
-        maxLength: 50
+        max_length: 50
       specimen_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       unit_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       anatomic_site_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       disease_status_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: specimen_concept_id
         reference: concept.concept_id
       - column: specimen_type_concept_id
@@ -732,11 +732,11 @@ tables:
       relationship_concept_id: integer
     foreign_keys:
       - column: domain_concept_id_1
-        references: domain.domain_concept_id
+        reference: domain.domain_concept_id
       - column: domain_concept_id_2
-        references: domain.domain_concept_id
+        reference: domain.domain_concept_id
       - column: relationship_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
 
   - name: location
     primary_key: location_id
@@ -746,29 +746,29 @@ tables:
       location_id: integer
       address_1:
         type: string
-        maxLength: 50
+        max_length: 50
       address_2:
         type: string
-        maxLength: 50
+        max_length: 50
       city:
         type: string
-        maxLength: 50
+        max_length: 50
       state:
         type: string
-        maxLength: 2
+        max_length: 2
       zip:
         type: string
-        maxLength: 10
+        max_length: 10
       county:
         type: string
-        maxLength: 50
+        max_length: 50
       location_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       country_concept_id: integer
       country_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       latitude: float
       longitude: float
     foreign_keys:
@@ -783,18 +783,18 @@ tables:
       care_site_id: int
       care_site_name:
         type: string
-        maxLength: 255
+        max_length: 255
       place_of_service_concept_id: integer
       location_id: integer
       care_site_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       place_of_service_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
     foreign_keys:
       - column: location_id
-        references: location.location_id
+        reference: location.location_id
       - column: place_of_service_concept_id
         reference: concept.concept_id
 
@@ -806,31 +806,31 @@ tables:
       provider_id: int
       provider_name:
         type: string
-        maxLength: 255
+        max_length: 255
       npi:
         type: string
-        maxLength: 20
+        max_length: 20
       dea:
         type: string
-        maxLength: 20
+        max_length: 20
       specialty_concept_id: integer
       care_site_id: integer
       year_of_birth: integer
       gender_concept_id: integer
       provider_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       specialty_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       specialty_source_concept_id: integer
       gender_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       gender_source_concept_id: integer
     foreign_keys:
       - column: care_site_id
-        references: care_site.care_site_id
+        reference: care_site.care_site_id
       - column: gender_concept_id
         reference: concept.concept_id
       - column: specialty_concept_id
@@ -855,29 +855,29 @@ tables:
       payer_concept_id: integer
       payer_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       payer_source_concept_id: integer
       plan_concept_id: integer
       plan_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       plan_source_concept_id: integer
       sponsor_concept_id: integer
       sponsor_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       sponsor_source_concept_id: integer
       family_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       stop_reason_concept_id: integer
       stop_reason_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       stop_reason_source_concept_id: integer
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: payer_concept_id
         reference: concept.concept_id
       - column: payer_source_concept_id
@@ -907,7 +907,7 @@ tables:
       cost_event_id: integer
       cost_domain_id:
         type: string
-        maxLength: 20
+        max_length: 20
       cost_type_concept_id: integer
       currency_concept_id: integer
       total_charge: float
@@ -926,11 +926,11 @@ tables:
       revenue_code_concept_id: integer
       revenue_code_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       drg_concept_id: integer
       drg_source_value:
         type: string
-        maxLength: 3
+        max_length: 3
     foreign_keys:
        - column: cost_type_concept_id
          reference: concept.concept_id
@@ -957,7 +957,7 @@ tables:
       gap_days: integer
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: drug_concept_id
         reference: concept.concept_id
 
@@ -981,7 +981,7 @@ tables:
       dose_era_end_date: datetime64[ns]
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: drug_concept_id
         reference: concept.concept_id
       - column: unit_concept_id
@@ -1004,7 +1004,7 @@ tables:
       condition_occurrence_count: integer
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: condition_concept_id
         reference: concept.concept_id
 
@@ -1031,11 +1031,11 @@ tables:
       episode_type_concept_id: integer
       episode_source_value:
         type: string
-        maxLength: 50
+        max_length: 50
       episode_source_concept_id: integer
     foreign_keys:
       - column: person_id
-        references: person.person_id
+        reference: person.person_id
       - column: episode_concept_id
         reference: concept.concept_id
       - column: episode_type_concept_id
@@ -1056,7 +1056,7 @@ tables:
       episode_event_field_concept_id: integer
     foreign_keys:
       - column: episode_id
-        references: episode.episode_id
+        reference: episode.episode_id
       - column: episode_event_field_concept_id
         reference: concept.concept_id
 
@@ -1073,10 +1073,10 @@ tables:
       metadata_type_concept_id: integer
       name:
         type: string
-        maxLength: 250
+        max_length: 250
       value_as_string:
         type: string
-        maxLength: 250
+        max_length: 250
       value_as_concept_id: int
       value_as_number: float
       metadata_date: datetime64[ns]
@@ -1101,31 +1101,31 @@ tables:
     datatypes:
       cdm_source_name:
         type: string
-        maxLength: 255
+        max_length: 255
       cdm_source_abbreviation:
         type: string
-        maxLength: 25
+        max_length: 25
       cdm_holder:
         type: string
-        maxLength: 255
+        max_length: 255
       source_description:
         type: string
-        maxLength: 65535
+        max_length:
       source_documentation_reference:
         type: string
-        maxLength: 255
+        max_length: 255
       cdm_etl_reference:
         type: string
-        maxLength: 255
+        max_length: 255
       source_release_date: datetime64[ns]
       cdm_release_date: datetime64[ns]
       cdm_version:
         type: string
-        maxLength: 10
+        max_length: 10
       cdm_version_concept_id: integer
       vocabulary_version:
         type: string
-        maxLength: 20
+        max_length: 20
     foreign_keys:
       - column: cdm_version_concept_id
         reference: concept.concept_id
@@ -1145,27 +1145,27 @@ tables:
       concept_id: integer
       concept_name:
         type: string
-        maxLength: 255
+        max_length: 255
       domain_id:
         type: string
-        maxLength: 20
+        max_length: 20
       vocabulary_id:
         type: string
-        maxLength: 20
+        max_length: 20
       concept_class_id:
         type: string
-        maxLength: 20
+        max_length: 20
       standard_concept:
         type: string
-        maxLength: 1
+        max_length: 1
       concept_code:
         type: string
-        maxLength: 50
+        max_length: 50
       valid_start_date: datetime64[ns]
       valid_end_date: datetime64[ns]
       invalid_reason:
         type: string
-        maxLength: 1
+        max_length: 1
     foreign_keys:
       - column: domain_id
         reference: domain.domain_id
@@ -1183,16 +1183,16 @@ tables:
     datatypes:
       vocabulary_id:
         type: string
-        maxLength: 20
+        max_length: 20
       vocabulary_name:
         type: string
-        maxLength: 255
+        max_length: 255
       vocabulary_reference:
         type: string
-        maxLength: 255
+        max_length: 255
       vocabulary_version:
         type: string
-        maxLength: 255
+        max_length: 255
       vocabulary_concept_id: integer
     foreign_keys:
       - column: vocabulary_concept_id
@@ -1207,10 +1207,10 @@ tables:
     datatypes:
       domain_id:
         type: string
-        maxLength: 20
+        max_length: 20
       domain_name:
         type: string
-        maxLength: 255
+        max_length: 255
       domain_concept_id: integer
     foreign_keys:
       - column: domain_concept_id
@@ -1225,20 +1225,16 @@ tables:
     datatypes:
       concept_class_id:
         type: string
-        maxLength: 20
+        max_length: 20
       concept_class_name:
         type: string
-        maxLength: 255
+        max_length: 255
       concept_class_concept_id: integer
     foreign_keys:
       - column: concept_class_concept_id
         reference: concept.concept_id
 
   - name: concept_relationship
-    primary_key:
-      - concept_id_1
-      - concept_id_2
-      - relationship_id
     required_columns:
       - concept_id_1
       - concept_id_2
@@ -1250,19 +1246,19 @@ tables:
       concept_id_2: integer
       relationship_id:
         type: string
-        maxLength: 20
+        max_length: 20
       valid_start_date: datetime64[ns]
       valid_end_date: datetime64[ns]
       invalid_reason:
         type: string
-        maxLength: 1
+        max_length: 1
     foreign_keys:
       - column: concept_id_1
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: concept_id_2
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: relationship_id
-        references: relationship.relationship_id
+        reference: relationship.relationship_id
 
   - name: relationship
     primary_key: relationship_id
@@ -1276,23 +1272,23 @@ tables:
     datatypes:
       relationship_id:
         type: string
-        maxLength: 20
+        max_length: 20
       relationship_name:
         type: string
-        maxLength: 255
+        max_length: 255
       is_hierarchical:
         type: string
-        maxLength: 1
+        max_length: 1
       defines_ancestry:
         type: string
-        maxLength: 1
+        max_length: 1
       reverse_relationship_id:
         type: string
-        maxLength: 20
+        max_length: 20
       relationship_concept_id: integer
     foreign_keys:
       - column: relationship_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
 
   - name: concept_synonym
     required_columns:
@@ -1303,13 +1299,13 @@ tables:
       concept_id: integer
       concept_synonym_name:
         type: string
-        maxLength: 1000
+        max_length: 1000
       language_concept_id: integer
     foreign_keys:
       - column: concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: language_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
 
   - name: concept_ancestor
     required_columns:
@@ -1324,9 +1320,9 @@ tables:
       max_levels_of_separation: integer
     foreign_keys:
       - column: ancestor_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: descendant_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
 
   - name: source_to_concept_map
     required_columns:
@@ -1340,33 +1336,33 @@ tables:
     datatypes:
       source_code:
         type: string
-        maxLength: 50
+        max_length: 50
       source_concept_id: integer
       source_vocabulary_id:
         type: string
-        maxLength: 20
+        max_length: 20
       source_code_description:
         type: string
-        maxLength: 255
+        max_length: 255
       target_concept_id: integer
       target_vocabulary_id:
         type: string
-        maxLength: 20
+        max_length: 20
       target_code_description:
         type: string
-        maxLength: 255
+        max_length: 255
       valid_start_date: datetime64[ns]
       valid_end_date: datetime64[ns]
       invalid_reason:
         type: string
-        maxLength: 1
+        max_length: 1
     foreign_keys:
       - column: source_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: target_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: target_vocabulary_id
-        references: vocabulary.vocabulary_id
+        reference: vocabulary.vocabulary_id
 
   - name: drug_strength
     required_columns:
@@ -1388,18 +1384,18 @@ tables:
       valid_end_date: datetime64[ns]
       invalid_reason:
         type: string
-        maxLength: 1
+        max_length: 1
     foreign_keys:
       - column: drug_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: ingredient_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: amount_unit_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: numerator_unit_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: denominator_unit_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
 
   - name: cohort
     required_columns:
@@ -1424,18 +1420,18 @@ tables:
       cohort_definition_id: integer
       cohort_definition_name:
         type: string
-        maxLength: 255
+        max_length: 255
       cohort_definition_description:
         type: string
-        maxLength: 65535
+        max_length:
       definition_type_concept_id: integer
       cohort_definition_syntax:
         type: string
-        maxLength: 65535
+        max_length:
       subject_concept_id: integer
       cohort_initiation_date: datetime64[ns]
     foreign_keys:
       - column: definition_type_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
       - column: subject_concept_id
-        references: concept.concept_id
+        reference: concept.concept_id
