@@ -18,7 +18,6 @@ This project is a **Python-based application** designed to validate and visualiz
   - Foreign Key Constraints
 
 - **Interactive Web Dashboard**  
-  The application provides a simple and intuitive web interface for a smooth user experience.
   - **File Upload**: Users can easily upload their OMOP CDM CSV files.  
   - **Real-time Reporting**: After validation, a live report is generated on the dashboard, providing a clear summary of all errors found, categorized by table and type.
 
